@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <title>האתר האישי</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header>
+  <button onclick="setLang('he')">עברית</button>
+  <button onclick="setLang('en')">English</button>
+</header>
+
+<main>
+  <h1 data-he="שם הכותב" data-en="Author Name"></h1>
+  <p data-he="אתר מאמרים אישי" data-en="Personal articles website"></p>
+
+  <nav>
+    <a href="articles.html" data-he="מאמרים" data-en="Articles"></a>
+    <a href="donate.html" data-he="תרומה" data-en="Donate"></a>
+    <a href="contact.html" data-he="צור קשר" data-en="Contact"></a>
+  </nav>
+</main>
+
+<script src="assets/js/lang.js"></script>
+</body>
+</html>
