@@ -6,9 +6,22 @@
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<input id="search" placeholder="חיפוש">
-<div id="articles"></div>
+
+<header>
+  <h1 data-he="מאמרים" data-en="Articles"></h1>
+  <div>
+    <button onclick="setLang('he')">עברית</button>
+    <button onclick="setLang('en')">English</button>
+  </div>
+</header>
+
+<main>
+  <input type="search" id="search" placeholder="🔍 חיפוש מאמרים">
+  <div id="articles"></div>
+</main>
+
 <script src="assets/js/lang.js"></script>
 <script src="assets/js/articles.js"></script>
+
 </body>
 </html>
