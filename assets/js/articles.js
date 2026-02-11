@@ -9,3 +9,18 @@ d.innerHTML=`<h2>${a.title}</h2><p>${a.summary}</p><a href="${a.pdf}" target="_b
 list.appendChild(d);
 })}
 s.oninput=e=>render(e.target.value);render();
+
+articles.push({
+  lang: "he",                   // שפה עברית
+  title: "שם המאמר",           // כותרת בעברית
+  summary: "תקציר קצר של המאמר", // תקציר בעברית
+  pdf: "assets/pdf/257 - PESUCHOS AND SETUMOS.pdf" // הנתיב ל-PDF
+});
+
+// אם יש גרסת אנגלית
+articles.push({
+  lang: "en",
+  title: "Article Name",
+  summary: "Short summary of the article",
+  pdf: "assets/pdf/my-article.pdf"
+});
