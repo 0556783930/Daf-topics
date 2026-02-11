@@ -22,5 +22,5 @@ articles.push({
   lang: "en",
   title: "Article Name",
   summary: "Short summary of the article",
-  pdf: "assets/pdf/my-article.pdf"
+  pdf: "assets/pdf/257 - PESUCHOS AND SETUMOS.pdf"
 });
