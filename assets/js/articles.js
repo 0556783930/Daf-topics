@@ -1,26 +1,54 @@
-const articles=[{lang:"he",title:"מאמר ראשון",summary:"תקציר",pdf:"assets/pdf/example.pdf"}];
-const l=localStorage.getItem("lang")||"he";
-const list=document.getElementById("articles");
-const s=document.getElementById("search");
-function render(f=""){list.innerHTML="";
-articles.filter(a=>a.lang===l).filter(a=>a.title.includes(f)).forEach(a=>{
-const d=document.createElement("div");
-d.innerHTML=`<h2>${a.title}</h2><p>${a.summary}</p><a href="${a.pdf}" target="_blank">PDF</a>`;
-list.appendChild(d);
-})}
-s.oninput=e=>render(e.target.value);render();
+// ==========================
+// Auto PDF Article Loader
+// ==========================
 
-articles.push({
-  lang: "he",                   // שפה עברית
-  title: "שם המאמר",           // כותרת בעברית
-  summary: "תקציר קצר של המאמר", // תקציר בעברית
-  pdf: "assets/pdf/257 - PESUCHOS AND SETUMOS.pdf" // הנתיב ל-PDF
+// השפה הנבחרת
+const lang = localStorage.getItem("lang") || "he";
+const list = document.getElementById("articles");
+const searchInput = document.getElementById("search");
+
+// רשימת מאמרים – אפשר להוסיף כותרות/תקצירים לפי שם PDF
+// המפתח: שם הקובץ בלי סיומת
+const titles = {
+  "257 - PESUCHOS AND SETUMOS": {
+    he: "257 - פסוכים וסתומים",
+    en: "257 - PESUCHOS AND SETUMOS",
+    summary_he: "תקציר קצר של המאמר בעברית",
+    summary_en: "Short summary of the article in English"
+  }
+};
+
+// רשימת קבצי PDF באופן ידני (בפעם הראשונה)
+const pdfFiles = [
+  "257 - PESUCHOS AND SETUMOS.pdf"
+];
+
+// פונקציית בניית רשימת מאמרים
+function render(filter = "") {
+  list.innerHTML = "";
+
+  pdfFiles.forEach(file => {
+    const name = file.replace(".pdf", "");
+    const title = titles[name] ? titles[name][lang] : name;
+    const summary = titles[name] ? titles[name]["summary_" + lang] : "";
+
+    if (title.toLowerCase().includes(filter) || summary.toLowerCase().includes(filter)) {
+      const div = document.createElement("div");
+      div.className = "article-card";
+      div.innerHTML = `
+        <h2>${title}</h2>
+        <p>${summary}</p>
+        <a href="assets/pdf/${file}" target="_blank">📄 PDF</a>
+      `;
+      list.appendChild(div);
+    }
+  });
+}
+
+// חיפוש בזמן אמת
+searchInput.addEventListener("input", e => {
+  render(e.target.value.toLowerCase());
 });
 
-// אם יש גרסת אנגלית
-articles.push({
-  lang: "en",
-  title: "Article Name",
-  summary: "Short summary of the article",
-  pdf: "assets/pdf/257 - PESUCHOS AND SETUMOS.pdf"
-});
+// רינדור ראשוני
+render();
