@@ -1,54 +1,45 @@
-// ==========================
-// Auto PDF Article Loader
-// ==========================
-
-// השפה הנבחרת
-const lang = localStorage.getItem("lang") || "he";
 const list = document.getElementById("articles");
 const searchInput = document.getElementById("search");
 
-// רשימת מאמרים – אפשר להוסיף כותרות/תקצירים לפי שם PDF
-// המפתח: שם הקובץ בלי סיומת
-const titles = {
-  "257 - PESUCHOS AND SETUMOS": {
-    he: "257 - פסוכים וסתומים",
-    en: "257 - PESUCHOS AND SETUMOS",
-    summary_he: "תקציר קצר של המאמר בעברית",
-    summary_en: "Short summary of the article in English"
+let allFiles = [];
+
+/* ===== Fetch PDFs Automatically ===== */
+async function fetchPDFs() {
+  try {
+    const res = await fetch("/.netlify/functions/get-pdfs");
+    allFiles = await res.json();
+    render();
+  } catch (error) {
+    console.error("Error loading PDFs:", error);
   }
-};
+}
 
-// רשימת קבצי PDF באופן ידני (בפעם הראשונה)
-const pdfFiles = [
-  "257 - PESUCHOS AND SETUMOS.pdf"
-];
-
-// פונקציית בניית רשימת מאמרים
+/* ===== Render Articles ===== */
 function render(filter = "") {
   list.innerHTML = "";
 
-  pdfFiles.forEach(file => {
-    const name = file.replace(".pdf", "");
-    const title = titles[name] ? titles[name][lang] : name;
-    const summary = titles[name] ? titles[name]["summary_" + lang] : "";
-
-    if (title.toLowerCase().includes(filter) || summary.toLowerCase().includes(filter)) {
+  allFiles
+    .filter(file =>
+      file.name.toLowerCase().includes(filter)
+    )
+    .forEach(file => {
       const div = document.createElement("div");
       div.className = "article-card";
+
       div.innerHTML = `
-        <h2>${title}</h2>
-        <p>${summary}</p>
-        <a href="assets/pdf/${file}" target="_blank">📄 PDF</a>
+        <h2>${file.name.replace(".pdf","")}</h2>
+        <p>עודכן בתאריך: ${new Date(file.date).toLocaleDateString()}</p>
+        <a href="assets/pdf/${file.name}" target="_blank">📄 פתח PDF</a>
       `;
+
       list.appendChild(div);
-    }
-  });
+    });
 }
 
-// חיפוש בזמן אמת
+/* ===== Search ===== */
 searchInput.addEventListener("input", e => {
   render(e.target.value.toLowerCase());
 });
 
-// רינדור ראשוני
-render();
+/* ===== Init ===== */
+fetchPDFs();
