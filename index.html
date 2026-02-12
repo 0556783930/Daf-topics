@@ -2,23 +2,260 @@
 <html lang="he">
 <head>
 <meta charset="UTF-8">
-<title>האתר האישי</title>
-<link rel="stylesheet" href="assets/css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מחקר ומאמרים</title>
+
+<style>
+
+/* ================= BASE ================= */
+:root{
+ --primary:#3b82f6;
+ --secondary:#06b6d4;
+ --bg:#0f172a;
+ --glass:rgba(255,255,255,0.08);
+}
+
+*{box-sizing:border-box;}
+body{
+ margin:0;
+ font-family:'Segoe UI',sans-serif;
+ background:var(--bg);
+ color:white;
+ overflow-x:hidden;
+ scroll-behavior:smooth;
+}
+
+/* ================= CURSOR LIGHT ================= */
+.cursor-light{
+ position:fixed;
+ width:400px;
+ height:400px;
+ background:radial-gradient(circle, rgba(59,130,246,0.25) 0%, transparent 70%);
+ pointer-events:none;
+ transform:translate(-50%,-50%);
+ z-index:-1;
+ transition:0.05s;
+}
+
+/* ================= NAV ================= */
+nav{
+ position:fixed;
+ top:0;
+ width:100%;
+ padding:20px 40px;
+ display:flex;
+ justify-content:space-between;
+ backdrop-filter:blur(0px);
+ transition:0.3s;
+ z-index:1000;
+}
+nav.scrolled{
+ backdrop-filter:blur(15px);
+ background:rgba(0,0,0,0.4);
+}
+
+nav a{
+ color:white;
+ margin-left:20px;
+ font-weight:bold;
+ text-decoration:none;
+ position:relative;
+}
+nav a::after{
+ content:"";
+ position:absolute;
+ width:0;
+ height:2px;
+ bottom:-5px;
+ left:0;
+ background:var(--secondary);
+ transition:0.3s;
+}
+nav a:hover::after{width:100%;}
+
+/* ================= HERO ================= */
+.hero{
+ height:100vh;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ text-align:center;
+ background:linear-gradient(135deg,#1e3a8a,#9333ea,#0ea5e9);
+ background-size:300% 300%;
+ animation:bgMove 15s ease infinite;
+}
+@keyframes bgMove{
+ 0%{background-position:0% 50%;}
+ 50%{background-position:100% 50%;}
+ 100%{background-position:0% 50%;}
+}
+
+.hero h1{font-size:70px;margin:0;}
+.typing{
+ margin-top:20px;
+ font-size:24px;
+ border-right:3px solid white;
+ white-space:nowrap;
+ overflow:hidden;
+}
+
+/* ================= BUTTON ================= */
+.btn{
+ margin-top:40px;
+ padding:16px 45px;
+ border-radius:50px;
+ background:linear-gradient(90deg,var(--secondary),var(--primary));
+ font-weight:bold;
+ color:white;
+ box-shadow:0 0 20px rgba(59,130,246,0.6);
+ transition:0.4s;
+}
+.btn:hover{
+ transform:scale(1.1);
+ box-shadow:0 0 50px rgba(59,130,246,1);
+}
+
+/* ================= CARDS ================= */
+.section{padding:120px 20px;text-align:center;}
+.cards{
+ display:flex;
+ gap:40px;
+ justify-content:center;
+ flex-wrap:wrap;
+}
+.card{
+ width:320px;
+ padding:40px;
+ border-radius:20px;
+ background:var(--glass);
+ backdrop-filter:blur(20px);
+ transition:transform 0.2s ease, box-shadow 0.4s;
+ transform-style:preserve-3d;
+ perspective:1000px;
+}
+.card:hover{
+ box-shadow:0 0 40px rgba(59,130,246,0.6);
+}
+
+/* ================= STATS ================= */
+.stats{
+ display:flex;
+ justify-content:center;
+ gap:80px;
+ flex-wrap:wrap;
+}
+.stat h2{
+ font-size:60px;
+ color:var(--secondary);
+}
+
+/* ================= PAGE TRANSITION ================= */
+.fade{
+ animation:fadeIn 1.2s ease;
+}
+@keyframes fadeIn{
+ from{opacity:0; transform:translateY(30px);}
+ to{opacity:1; transform:translateY(0);}
+}
+
+</style>
 </head>
-<body>
-<header>
-<button onclick="setLang('he')">עברית</button>
-<button onclick="setLang('en')">English</button>
-</header>
-<main>
-<h1 data-he="הרב יעקב הכהן שנברג שליט"א" data-en="Author Name"></h1>
-<p data-he="אתר מאמרים - נושאים בדף" data-en="Personal articles website"></p>
-<nav>
-<a href="articles.html" data-he="מאמרים" data-en="Articles"></a>
-<a href="donate.html" data-he="תרומה" data-en="Donate"></a>
-<a href="contact.html" data-he="צור קשר" data-en="Contact"></a>
+<body class="fade">
+
+<div class="cursor-light" id="cursor"></div>
+
+<nav id="navbar">
+ <div><strong>מאמרים</strong></div>
+ <div>
+   <a href="#about">אודות</a>
+   <a href="articles.html">מאמרים</a>
+   <a href="donate.html">תרומה</a>
+ </div>
 </nav>
-</main>
-<script src="assets/js/lang.js"></script>
+
+<section class="hero">
+ <h1>מחקר ומאמרים</h1>
+ <div class="typing" id="typing"></div>
+ <a href="articles.html" class="btn">גלה את המאמרים</a>
+</section>
+
+<section id="about" class="section">
+ <h2>למה האתר ייחודי</h2>
+ <div class="cards">
+   <div class="card">📚 מאמרים עמוקים ומקיפים</div>
+   <div class="card">🌍 דו לשוני מלא</div>
+   <div class="card">💎 תמיכה ותרומה פשוטה</div>
+ </div>
+</section>
+
+<section class="section">
+ <div class="stats">
+   <div class="stat"><h2 id="c1">0</h2><p>מאמרים</p></div>
+   <div class="stat"><h2 id="c2">0</h2><p>שנות מחקר</p></div>
+   <div class="stat"><h2 id="c3">0</h2><p>קוראים</p></div>
+ </div>
+</section>
+
+<script>
+
+/* ===== Typing ===== */
+const text="מאמרים תורניים • מחקר עומק • כתיבה מקצועית";
+let i=0;
+function type(){
+ if(i<text.length){
+  document.getElementById("typing").innerHTML+=text.charAt(i);
+  i++;
+  setTimeout(type,50);
+ }
+}
+type();
+
+/* ===== Navbar Blur ===== */
+window.addEventListener("scroll",()=>{
+ document.getElementById("navbar")
+  .classList.toggle("scrolled",window.scrollY>50);
+});
+
+/* ===== Counter ===== */
+function counter(id,target){
+ let c=0;
+ let inc=target/100;
+ let interval=setInterval(()=>{
+  c+=inc;
+  if(c>=target){c=target;clearInterval(interval);}
+  document.getElementById(id).innerText=Math.floor(c);
+ },20);
+}
+counter("c1",57);
+counter("c2",25);
+counter("c3",12000);
+
+/* ===== 3D Tilt Cards ===== */
+document.querySelectorAll(".card").forEach(card=>{
+ card.addEventListener("mousemove",(e)=>{
+  const rect=card.getBoundingClientRect();
+  const x=e.clientX-rect.left;
+  const y=e.clientY-rect.top;
+  const centerX=rect.width/2;
+  const centerY=rect.height/2;
+  const rotateX=(y-centerY)/15;
+  const rotateY=(centerX-x)/15;
+  card.style.transform=`rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+ });
+ card.addEventListener("mouseleave",()=>{
+  card.style.transform="rotateX(0) rotateY(0)";
+ });
+});
+
+/* ===== Cursor Glow ===== */
+const cursor=document.getElementById("cursor");
+document.addEventListener("mousemove",e=>{
+ cursor.style.left=e.clientX+"px";
+ cursor.style.top=e.clientY+"px";
+});
+
+</script>
+
 </body>
 </html>
