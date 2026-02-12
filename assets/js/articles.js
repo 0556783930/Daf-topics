@@ -3,24 +3,14 @@ const searchInput = document.getElementById("search");
 
 let allFiles = [];
 
-/* ===== Load PDFs from assets/pdf automatically ===== */
+/* ===== Load PDFs Automatically ===== */
 async function fetchPDFs() {
   try {
-    // כאן נטען את כל ה-PDFים ישירות מהתיקייה המקומית
-    // אם אתה רוצה להשתמש ב-Netlify Functions, תוכל לשנות את ה-URL למשהו כמו:
-    // "/.netlify/functions/get-pdfs"
-    const pdfFiles = [
-      "257 - PESUCHOS AND SETUMOS.pdf",
-      "258 - EXAMPLE.pdf",
-      "259 - EXAMPLE.pdf",
-      "260 - EXAMPLE.pdf"
-      // הוסף כאן את כל שאר ה-PDFים
-    ];
+    const res = await fetch("/.netlify/functions/get-pdfs");
+    allFiles = await res.json();
 
-    allFiles = pdfFiles.map(name => ({
-      name,
-      url: `assets/pdf/${name}`
-    }));
+    // Optional: sort by name
+    allFiles.sort((a,b) => a.name.localeCompare(b.name));
 
     render();
   } catch (error) {
@@ -28,7 +18,7 @@ async function fetchPDFs() {
   }
 }
 
-/* ===== Render Articles ===== */
+/* ===== Render PDF Cards ===== */
 function render(filter = "") {
   list.innerHTML = "";
 
@@ -40,7 +30,7 @@ function render(filter = "") {
 
       div.innerHTML = `
         <h2>${file.name.replace(".pdf","")}</h2>
-        <a href="${file.url}" target="_blank">📄 פתח PDF</a>
+        <a href="${file.url}">📄 פתח PDF</a>  <!-- נפתח באותו חלון -->
       `;
 
       list.appendChild(div);
