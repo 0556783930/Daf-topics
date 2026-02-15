@@ -30,7 +30,9 @@ function render(filter = "") {
 
       div.innerHTML = `
         <h2>${file.name.replace(".pdf","")}</h2>
-        <a href="${file.url}">📄 פתח PDF</a>  <!-- נפתח באותו חלון -->
+        <a href="viewer.html?file=${encodeURIComponent(file.name)}">
+          📖 קרא מאמר
+        </a>
       `;
 
       list.appendChild(div);
