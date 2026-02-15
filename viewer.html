@@ -3,18 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Viewer</title>
-
+<link rel="stylesheet" href="assets/css/style.css">
 <style>
-:root {
-  --bg-dark: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  --bg-light: #f4f4f4;
-  --accent: #ff9800;
-}
-
 body {
   margin:0;
   font-family: Arial, sans-serif;
-  background: var(--bg-dark);
+  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:white;
   display:flex;
   flex-direction:column;
   height:100vh;
@@ -23,7 +18,8 @@ body {
 }
 
 .light-mode {
-  background: var(--bg-light);
+  background:#f4f4f4;
+  color:black;
 }
 
 .viewer-header {
@@ -43,7 +39,7 @@ body {
 
 .controls button {
   margin-left:10px;
-  background:var(--accent);
+  background:#ff9800;
   border:none;
   padding:8px 14px;
   border-radius:8px;
@@ -93,16 +89,16 @@ iframe.loaded {
     <button onclick="prevFile()">⬅</button>
     <button onclick="nextFile()">➡</button>
     <button onclick="toggleTheme()">🌓</button>
-    <button onclick="goBack()">🏠</button>
-    <button onclick="goFull()">⛶</button>
+    <button onclick="goBack()" data-key="back"></button>
   </div>
 </div>
 
 <div class="loader" id="loader">טוען מאמר...</div>
 <iframe id="pdfFrame"></iframe>
 
-<script>
+<script src="assets/js/lang.js"></script>
 
+<script>
 const params = new URLSearchParams(window.location.search);
 const file = params.get("file");
 
@@ -116,7 +112,6 @@ let currentIndex = files.indexOf(file);
 if (file) {
   title.textContent = file.replace(".pdf","");
   frame.src = `assets/pdf/${file}`;
-  localStorage.setItem("lastRead", file);
 }
 
 frame.onload = () => {
@@ -126,12 +121,6 @@ frame.onload = () => {
 
 function goBack() {
   window.location.href = "articles.html";
-}
-
-function goFull() {
-  if (frame.requestFullscreen) {
-    frame.requestFullscreen();
-  }
 }
 
 function nextFile() {
@@ -149,7 +138,6 @@ function prevFile() {
 function toggleTheme() {
   document.body.classList.toggle("light-mode");
 }
-
 </script>
 
 </body>
