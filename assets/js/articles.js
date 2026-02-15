@@ -12,6 +12,11 @@ async function fetchPDFs() {
     // Optional: sort by name
     allFiles.sort((a,b) => a.name.localeCompare(b.name));
 
+    localStorage.setItem(
+      "pdfList",
+      JSON.stringify(allFiles.map(f => f.name))
+    );
+
     render();
   } catch (error) {
     console.error("Error loading PDFs:", error);
