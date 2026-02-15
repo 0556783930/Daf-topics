@@ -17,74 +17,37 @@ body {
   transition:0.4s;
 }
 
-.light-mode {
-  background:#f4f4f4;
-  color:black;
-}
+.light-mode { background:#f4f4f4; color:black; }
+.light-mode .viewer-header { background:#ffffff; color:black; }
 
 .viewer-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 25px;
-  background:rgba(255,255,255,0.1);
-  backdrop-filter: blur(12px);
-  color:white;
-}
-
-.light-mode .viewer-header {
-  background:#ffffff;
-  color:black;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:15px 25px; background:rgba(255,255,255,0.1); backdrop-filter: blur(12px); color:white;
 }
 
 .controls button {
-  margin-left:10px;
-  background:#ff9800;
-  border:none;
-  padding:8px 14px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
+  margin-left:10px; background:#ff9800; border:none;
+  padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;
   transition:0.2s;
 }
 
-.controls button:hover {
-  transform:scale(1.05);
-}
+.controls button:hover { transform:scale(1.05); }
 
-iframe {
-  flex:1;
-  border:none;
-  opacity:0;
-  transition:opacity 0.5s ease;
-}
-
-iframe.loaded {
-  opacity:1;
-}
+iframe { flex:1; border:none; opacity:0; transition:opacity 0.5s ease; }
+iframe.loaded { opacity:1; }
 
 .loader {
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  font-size:20px;
-  color:white;
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%); font-size:20px; color:white;
   animation:pulse 1s infinite;
 }
-
-@keyframes pulse {
-  0% {opacity:0.3;}
-  50% {opacity:1;}
-  100% {opacity:0.3;}
-}
+@keyframes pulse { 0% {opacity:0.3;} 50% {opacity:1;} 100% {opacity:0.3;} }
 </style>
 </head>
 <body>
 
 <div class="viewer-header">
   <span id="fileName"></span>
-
   <div class="controls">
     <button onclick="prevFile()">⬅</button>
     <button onclick="nextFile()">➡</button>
@@ -97,7 +60,6 @@ iframe.loaded {
 <iframe id="pdfFrame"></iframe>
 
 <script src="assets/js/lang.js"></script>
-
 <script>
 const params = new URLSearchParams(window.location.search);
 const file = params.get("file");
@@ -114,31 +76,12 @@ if (file) {
   frame.src = `assets/pdf/${file}`;
 }
 
-frame.onload = () => {
-  loader.style.display = "none";
-  frame.classList.add("loaded");
-};
+frame.onload = () => { loader.style.display = "none"; frame.classList.add("loaded"); };
 
-function goBack() {
-  window.location.href = "articles.html";
-}
-
-function nextFile() {
-  if (currentIndex < files.length - 1) {
-    window.location.href = `viewer.html?file=${files[currentIndex+1]}`;
-  }
-}
-
-function prevFile() {
-  if (currentIndex > 0) {
-    window.location.href = `viewer.html?file=${files[currentIndex-1]}`;
-  }
-}
-
-function toggleTheme() {
-  document.body.classList.toggle("light-mode");
-}
+function goBack() { window.location.href = "articles.html"; }
+function nextFile() { if(currentIndex<files.length-1){ window.location.href=`viewer.html?file=${files[currentIndex+1]}`; } }
+function prevFile() { if(currentIndex>0){ window.location.href=`viewer.html?file=${files[currentIndex-1]}`; } }
+function toggleTheme() { document.body.classList.toggle("light-mode"); }
 </script>
-
 </body>
 </html>
